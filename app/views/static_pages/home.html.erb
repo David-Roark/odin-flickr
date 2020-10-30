@@ -1,0 +1,78 @@
+<section class="container">
+    <%= form_with scope: :search, method: :get, local: true  do |form| %>
+    <nav class="level">
+      <div class="level-item">
+        <p class="subtitle is-6">Search photos Flickr by user id</p>
+      </div>
+      <div class="level-item">
+        <div class="field has-addons">
+          <div class="control">
+            <%= form.text_field :user_id, class: 'input', placeholder: 'E.g. 190630308@N06' %>
+            <% if flash[:alert] %>
+            <p class="help is-danger"><%= alert %></p>
+            <% end %>
+          </div>
+          <div class="control">
+            <%= form.submit 'Search', class: 'button is-link' %>
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+  </nav>
+    <% end %>
+    <br>
+
+    <div class="tile">
+      <% if @images %>
+      <div class="box">
+        <div>
+          <% @images.each do |i| %>
+          <figure class='image'>
+            <%= image_tag img_url(i) %>
+          </figure>
+          <h6 class='subtitle is-6'><%= i.title %></h6>
+          <% end %>
+        </div>
+
+        <footer class="footer">
+          <p>Total user's photos: <%= @number_photos %></p>
+        </footer>
+      </div>
+      <footer class="footer">
+        <h1 class='title is-4'>Quick search:</h1>
+          <%= form_with scope: :search, method: :get, local: true do |form| %>
+            <%= form.label :user_id, 'User id', class: 'label' %>
+            <div class="control">
+              <%= form.text_field :user_id, value: @user_id, class: 'input is-primary' %>
+
+            </div>
+            <%= form.label :page, 'Page', class: 'label' %>
+
+            <div class="control">
+              <%= form.number_field :page, options = {in: (1..@number_pages), value: @page || 1} %>
+
+            </div>
+            <%= form.label :per_page, 'Photos per page', class: 'label' %>
+
+            <div class="control">
+              <%= form.number_field :per_page, options = {in: (1..50), value: @per_page || 10}  %>
+
+            </div>
+            <br>
+            <div class="control">
+              <%= form.submit 'GO!', class: 'button is-link' %>
+
+            </div>
+
+          <% end %>
+      </footer>
+      <% end %>
+    </div>
+
+
+
+</section>
